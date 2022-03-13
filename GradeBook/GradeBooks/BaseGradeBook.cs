@@ -18,9 +18,10 @@ namespace GradeBook.GradeBooks
         public bool IsWeighted { get; set; }
         public List<Student> Students { get; set; }
 
-        public BaseGradeBook(string name)
+        public BaseGradeBook(string name, bool IsWeight)
         {
             Name = name;
+            IsWeighted = IsWeight;
             Students = new List<Student>();
         }
 
@@ -191,6 +192,12 @@ namespace GradeBook.GradeBooks
                 Console.WriteLine("Average for only honors students is " + (honorPoints / Students.Where(e => e.Type == StudentType.Honors).Count()));
             if (dualEnrolledPoints != 0)
                 Console.WriteLine("Average for only dual enrolled students is " + (dualEnrolledPoints / Students.Where(e => e.Type == StudentType.DualEnrolled).Count()));
+        
+
+
+
+
+
         }
 
         public virtual void CalculateStudentStatistics(string name)
