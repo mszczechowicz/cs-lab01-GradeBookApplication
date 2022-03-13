@@ -111,20 +111,27 @@ namespace GradeBook.GradeBooks
 
         public virtual double GetGPA(char letterGrade, StudentType studentType)
         {
+            int extrapoint;
+            if ((studentType == StudentType.Honors || studentType == StudentType.DualEnrolled) && (IsWeighted))
+            {
+                extrapoint = 1;
+            }
+            else extrapoint = 0;
+
             switch (letterGrade)
             {
                 case 'A':
-                    return 4;
+                    return 4 + extrapoint;
                 case 'B':
-                    return 3;
+                    return 3 + extrapoint;
                 case 'C':
-                    return 2;
+                    return 2 + extrapoint;
                 case 'D':
-                    return 1;
+                    return 1 + extrapoint;
                 case 'F':
-                    return 0;
+                    return 0 + extrapoint;
             }
-            return 0;
+            return 0 + extrapoint;
         }
 
         public virtual void CalculateStatistics()
@@ -192,7 +199,7 @@ namespace GradeBook.GradeBooks
                 Console.WriteLine("Average for only honors students is " + (honorPoints / Students.Where(e => e.Type == StudentType.Honors).Count()));
             if (dualEnrolledPoints != 0)
                 Console.WriteLine("Average for only dual enrolled students is " + (dualEnrolledPoints / Students.Where(e => e.Type == StudentType.DualEnrolled).Count()));
-        
+
 
 
 
@@ -274,7 +281,7 @@ namespace GradeBook.GradeBooks
                              from type in assembly.GetTypes()
                              where type.FullName == "GradeBook.GradeBooks.StandardGradeBook"
                              select type).FirstOrDefault();
-            
+
             return JsonConvert.DeserializeObject(json, gradebook);
         }
     }
